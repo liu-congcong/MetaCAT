@@ -12,7 +12,7 @@ Metagenome Clustering and Association Tool.
 [`Hmmer`](http://hmmer.org)
 [`Mash`](https://github.com/marbl/Mash)
 
-`FragGeneScan` (Linux version), `Hmmer` (Linux version) and `Mash` (Linux version) are also available in MetaCAT.
+`FragGeneScan`, `Hmmer` and `Mash` are internally available within MetaCAT.
 
 Install `MetaCAT`.
 
