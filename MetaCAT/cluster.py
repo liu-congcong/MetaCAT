@@ -166,7 +166,6 @@ def main(parameters):
         from .swdpgmm_cpu import SWDPGMM
 
     # determine number of samples #
-    randomGenerator = numpy.random.default_rng(parameters.random_number)
     nCov = determine_samples(parameters.coverage)
     if parameters.min_sequence_length is None:
         parameters.min_sequence_length = 1500 if nCov == 1 else 500
@@ -206,24 +205,28 @@ def main(parameters):
     # read coverage file #
     print(f'{datetime.now().strftime("%Y-%m-%d %H:%M:%S")} -> Loading coverage file.', flush = True)
     covMean, sharedCovMean, sharedCovVar = read_coverage_file(parameters.coverage, sequenceID2sequence)
+    covMean = numpy.log(covMean + 1) # covMean >= 0 #
+    covMean -= numpy.min(covMean, axis = 0)
+    covMean /= numpy.max(covMean, axis = 0) + 10 * numpy.finfo(numpy.float32).eps # covMean >= 0 and covMean <= 1 #
 
     # calculate kmer frequency #
     print(f'{datetime.now().strftime("%Y-%m-%d %H:%M:%S")} -> Counting kmers of all sequences.', flush = True)
     kmerFreq, sharedKmerFreq = count_kmers(nSequences, sequenceStructs, parameters.threads)
-    '''
-    if os.access(f'{os.path.basename(parameters.fasta)}.{parameters.min_sequence_length}.kmers.npy', os.R_OK):
-        sharedKmerFreq = RawArray(c_float, numpy.load(f'{os.path.basename(parameters.fasta)}.{parameters.min_sequence_length}.kmers.npy').flat)
-        kmerFreq = numpy.ndarray(shape = (nSequences, 136), dtype = numpy.float32, buffer = sharedKmerFreq)
-    else:
-        kmerFreq, sharedKmerFreq = count_kmers(nSequences, sequenceStructs, parameters.threads)
-        numpy.save(f'{os.path.basename(parameters.fasta)}.{parameters.min_sequence_length}.kmers.npy', kmerFreq)
-    '''
+    sharedKmerFreqSquaredRowSum = RawArray(c_float, numpy.einsum('ij,ij->i', kmerFreq, kmerFreq))
+    pca = PCA(n_components = None, whiten = False, random_state = parameters.random_number)
+    pca.fit(kmerFreq)
+    k = max(numpy.sum(numpy.cumsum(pca.explained_variance_ratio_) < parameters.min_pca_variance_ratio), parameters.min_pca_components)
+
+    # concatenate coverage and kmer frequency #
+    x = numpy.concatenate((pca.transform(kmerFreq)[ : , : k], covMean), axis = 1)
+    y = numpy.empty(shape = nSequences, dtype = numpy.int32)
+    del covMean
+    del kmerFreq
 
     nModelWeights, modelWeights = parseModelWeight(parameters.kmer_frequence_weight, parameters.coverage_weight)
 
     # start processes for affinity model #
     parsedSequenceLength = parseSequenceLength(length)
-    sharedKmerFreqSquaredRowSum = RawArray(c_float, numpy.einsum('ij,ij->i', kmerFreq, kmerFreq))
     (
         affinityProcessQ, affinityContainer, affinityContainerSize, affinityToken, affinityModelFlag,
         affinityNeighborIndices1, affinityNeighborAffinities1, affinityNeighborIndices2, affinityNeighborAffinities2,
@@ -244,15 +247,6 @@ def main(parameters):
     scoreProcessQ, scorePartitions, scoreScores, scoreProcesses = createScoreProcesses(
         sharedSeedSequences, markerTable, lpPartitions, lpPartitionN, nModelWeights, parameters.threads
     )
-
-    covMean = numpy.log(covMean + 1) # covMean >= 0 #
-    covMean -= numpy.min(covMean, axis = 0)
-    covMean /= numpy.max(covMean, axis = 0) + 10 * numpy.finfo(numpy.float32).eps # covMean >= 0 and covMean <= 1 #
-    pca = PCA(n_components = None, whiten = False, random_state = randomGenerator.integers(numpy.iinfo(numpy.int32).max))
-    pca.fit(kmerFreq)
-    k = max(numpy.sum(numpy.cumsum(pca.explained_variance_ratio_) < parameters.min_pca_variance_ratio), parameters.min_pca_components)
-    x = numpy.concatenate((pca.transform(kmerFreq)[ : , : k], covMean), axis = 1)
-    y = numpy.empty(shape = nSequences, dtype = numpy.int32)
 
     print(f'{datetime.now().strftime("%Y-%m-%d %H:%M:%S")} -> Clustering sequences.', flush = True)
     # initialize the labels #
