@@ -133,7 +133,7 @@ def __init__():
     )
     cluster_parser.add_argument(
         '-o', '--output', type = str, required = True, metavar = '<str>',
-        help = 'Prefix to the output files.\n\"*.*.fasta\" the fasta formatted cluster file.\n\"*.mapping\" the mapping of sequences to clusters.'
+        help = 'Prefix of the output files.\n\"*.*.fasta\" the fasta formatted cluster file.\n\"*.mapping\" the mapping of sequences to clusters.'
     )
     cluster_parser.add_argument(
         '-m', '--min-sequence-length', type = int, required = False, metavar = '<int>',
@@ -274,7 +274,7 @@ def __init__():
     )
     benchmarkGT_parser.add_argument(
         '-o', '--output', type = str, required = True, metavar = '<str>',
-        help = 'Prefix to the output files.'
+        help = 'Prefix of the output files.'
     )
     benchmarkGT_parser.add_argument(
         '--dataset', type = str, required = False, metavar = '<str>',
@@ -317,7 +317,7 @@ def __init__():
     )
     benchmarkRW_parser.add_argument(
         '-o', '--output', type = str, required = True, metavar = '<str>',
-        help = 'Prefix to the output files.'
+        help = 'Prefix of the output files.'
     )
     benchmarkRW_parser.add_argument(
         '-c', '--combine', default = False, action = 'store_true', required = False,
@@ -404,7 +404,7 @@ def __init__():
     )
     representative_parser.add_argument(
         '-o', '--output', type = str, required = True, metavar = '<str>',
-        help = 'Prefix to the output files.\n\"*.annotation\": the classifications of all clusters.\n\"*.assembly\": the combined representative assembly.\n\"*.mapping\": the mapping of sequences to clusters.'
+        help = 'Prefix of the output files.\n\"*.annotation\": the classifications of all clusters.\n\"*.assembly\": the combined representative assembly.\n\"*.mapping\": the mapping of sequences to clusters.'
     )
     representative_parser.add_argument(
         '-t', '--threads', default = os.cpu_count(), type = int, required = False, metavar = '<int>',
@@ -506,7 +506,7 @@ def __init__():
     )
     abundanceTest_parser.add_argument(
         '-o', '--output', type = str, required = True, metavar = '<str>',
-        help = 'Prefix to the output files.\n\"*.G1-G2.*: significance test for group G1 and G2.\"'
+        help = 'Prefix of the output files.\n\"*.G1-G2.*: significance test for group G1 and G2.\"'
     )
     abundanceTest_parser.add_argument(
         '--coverage', default = 0.50, type = float, required = False, metavar = '<float>',
@@ -647,7 +647,7 @@ def __init__():
     )
     plotMWAS_parser.add_argument(
         '-o', '--output', type = str, required = True, metavar = '<str>',
-        help = 'Prefix to the output files.\n\"*.qq.pdf\": the qq plot for the mwas.\n\"*.manhattan\": the manhattan plot for the mwas.'
+        help = 'Prefix of the output files.\n\"*.qq.pdf\": the qq plot for the mwas.\n\"*.manhattan\": the manhattan plot for the mwas.'
     )
     plotMWAS_parser.add_argument(
         '--variant-annotation', type = str, required = False, metavar = '<str>',
