@@ -5,7 +5,7 @@ from math import floor, log10
 import numpy
 from matplotlib.pyplot import close, subplots
 
-from .colors import hcl
+from .colors import generateColors
 
 
 def isGzipped(file):
@@ -111,7 +111,7 @@ def manhattan(xyz, variantAnnotations, offsets, alpha, output):
     axes[0, 0].set_ylabel('$-log_{10}{(p)}$', fontdict = {'fontsize': 9})
     axes[0, 0].tick_params(labelsize = 8)
 
-    axes[1, 0].barh(0.1, offsets[ : , 1] - offsets[ : , 0], height = 0.16, left = offsets[ : , 0], color = hcl(offsets.shape[0]), edgecolor = '#111111', linewidth = 0.05)
+    axes[1, 0].barh(0.1, offsets[ : , 1] - offsets[ : , 0], height = 0.16, left = offsets[ : , 0], color = generateColors(offsets.shape[0]), edgecolor = '#111111', linewidth = 0.05)
     axes[1, 0].set_xticks([])
     axes[1, 0].yaxis.set_visible(False)
     axes[1, 0].spines[ : ].set_visible(False)
