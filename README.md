@@ -27,6 +27,8 @@ pip3 install https://github.com/liu-congcong/MetaCAT/releases/download/v1.0.0/me
 ```bash
 pip3 install https://github.com/liu-congcong/MetaCAT/releases/download/v1.0.1/metacat-1.0.1-py3-none-any.whl
 
+### GPU version of MetaCAT
+
 To enable the `GPU` for MetaCAT, you need to install [`CuPy`](https://cupy.dev).
 
 ```bash
