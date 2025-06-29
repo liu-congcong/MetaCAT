@@ -50,11 +50,7 @@ def main(parameters):
     print(f'{datetime.now().strftime("%Y-%m-%d %H:%M:%S")} -> Loading mapping file.', flush = True)
     clusterID2sequenceIDs_ = readMappingFile(parameters.mapping)
     clusterID2sequenceIDs = dict()
-    if parameters.cluster is not None:
-        for i in parameters.cluster:
-            if i in clusterID2sequenceIDs_:
-                clusterID2sequenceIDs[i] = clusterID2sequenceIDs_[i]
-    elif parameters.checkm2 is not None:
+    if parameters.checkm2 is not None:
         print(f'{datetime.now().strftime("%Y-%m-%d %H:%M:%S")} -> Loading CheckM2 file.', flush = True)
         clusters = readCheckm2File(parameters.checkm2, parameters.contamination, parameters.completeness)
         for i, j in clusterID2sequenceIDs_.items():
