@@ -22,10 +22,10 @@ Install `MetaCAT`.
 pip3 install https://github.com/liu-congcong/MetaCAT/releases/download/v1.0.0/metacat-1.0.0-py3-none-any.whl
 ```
 
-### v1.0.1
+### v1.0.2
 
 ```TEXT
-pip3 install https://github.com/liu-congcong/MetaCAT/releases/download/v1.0.1/metacat-1.0.1-py3-none-any.whl
+pip3 install https://github.com/liu-congcong/MetaCAT/releases/download/v1.0.2/metacat-1.0.2-py3-none-any.whl
 ```
 
 ### GPU version for MetaCAT
@@ -75,3 +75,7 @@ Add `--input-suffix` in `variant` command.
 Add `--input-suffix` in `checkm2` command.
 
 Add `--input-suffix` in `gtdbtk` command.
+
+### v1.0.2
+
+Fixed a bug in the `checkm2` command that occurred when handling a large number of input files.

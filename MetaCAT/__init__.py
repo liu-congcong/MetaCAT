@@ -30,7 +30,7 @@ def __init__():
         epilog = 'congcong_liu@icloud.com.'
     )
     parser.add_argument(
-        '-v', '--version', action = 'version', version = '%(prog)s 1.0.1'
+        '-v', '--version', action = 'version', version = '%(prog)s 1.0.2'
     )
 
     subparsers = parser.add_subparsers(

@@ -1,6 +1,6 @@
 import gzip
-import os
-from shutil import move, rmtree
+from pathlib import Path
+from shutil import rmtree
 from subprocess import DEVNULL, run
 from uuid import uuid4
 
@@ -30,14 +30,23 @@ def readCheckm2File(file, contamination, completeness):
 
 
 def runCheckm2(checkm2, threads, inputFiles, outputFile):
-    temp = uuid4().hex
+    inputDirectory = uuid4().hex
+    inputDirectoryPath = Path(inputDirectory)
+    inputDirectoryPath.mkdir()
+    for inputFile in inputFiles:
+        inputFilePath = Path(inputFile)
+        inputDirectoryPath.joinpath(f'{inputFilePath.stem}.fasta').symlink_to(inputFilePath.absolute())
+
+    outputDirectory = uuid4().hex
+    outputDirectoryPath = Path(outputDirectory)
     completedProcess = run(
-        [checkm2, 'predict', '--remove_intermediates', '--force', '-x', 'fasta', '--threads', str(threads), '--output-directory', temp, '--input'] + inputFiles,
+        [checkm2, 'predict', '--remove_intermediates', '--force', '-x', 'fasta', '--threads', str(threads), '--input', inputDirectory, '--output-directory', outputDirectory],
         stdout = DEVNULL, stderr = DEVNULL
     )
     assert not completedProcess.returncode, 'An error has occured while running CheckM2.'
-    move(os.path.join(temp, 'quality_report.tsv'), outputFile)
-    rmtree(temp)
+    rmtree(inputDirectory)
+    outputDirectoryPath.joinpath('quality_report.tsv').rename(outputFile)
+    rmtree(outputDirectory)
     return None
 
 
