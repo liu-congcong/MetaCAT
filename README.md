@@ -104,10 +104,6 @@ To enable the `GPU` for MetaCAT, you need to install [`CuPy`](https://cupy.dev).
 pip3 install cupy-cudaXXX
 ```
 
-## Benchmarks
-
-[HERE](https://github.com/liu-congcong/MetaCAT/tree/main/Benchmarks).
-
 ## Documentation
 
 [HERE](https://github.com/liu-congcong/MetaCAT/tree/main/Documentation).
