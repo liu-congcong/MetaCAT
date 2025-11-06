@@ -129,7 +129,11 @@ MetaCAT benchmarkRW --combine --checkm2 metacat.checkm2.tsv --output metacat.ben
 
 ## 06. Cluster Annotation
 
-`MetaCAT gtdbtk` will produce `GTDB-Tk.msh` file on the first run, which can be specified on subsequent runs with `--mash-db`.
+`MetaCAT gtdbtk` will generate a `GTDB-Tk.msh` file during the first run.
+
+This file is dataset-independent and only depends on the GTDB you use.
+
+Therefore, it can be specified in subsequent runs with `--mash-db GTDB-Tk.msh` to skip this step.
 
 ### Input
 
