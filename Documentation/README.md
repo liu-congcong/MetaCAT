@@ -4,6 +4,15 @@ Metagenome Clustering and Association Tool.
 
 ## Getting started
 
+1. [`Group metagenomic sequences into clusters`](./README.md#Group-metagenomic-sequences-into-clusters)
+2. [`Evaluate the clusters`](./README.md#Evaluate-the-clusters)
+3. [`Classify the clusters`](./README.md#Classify-the-clusters)
+4. [`Define a set of representative genomes`](./README.md#Define-a-set-of-representative-genomes)
+5. [`Compute the relative abundance table`](./README.md#Compute-the-relative-abundance-table)
+6. [`Determine the differential marker species`](./README.md#Determine-the-differential-marker-species)
+7. [`Call microbial SNPs`](./README.md#Call-microbial-SNPs)
+8. [`Perform MWAS for metagenomic data`](./README.md#Perform-MWAS-for-metagenomic-data)
+
 ### Group metagenomic sequences into clusters
 
 #### Preparations
@@ -195,28 +204,28 @@ This step will generate two pdf formatted plot files `metacat.plotMWAS.*.pdf`.
 
 ## Commands
 
-- `coverage`           Generate COVERAGE file from bam files.
-- `seed`               Generate SEED file from an assembly file.
-- `cluster`            Cluster sequences based on ASSEMBLY, COVERAGE and SEED files.
-- `cluster2mapping`    Generate mapping file from fasta formatted cluster files.
-- `mapping2cluster`    Generate fasta formatted cluster files from assembly and mapping file.
-- `benchmarkGT`        Benchmark with ground truth.
-- `benchmarkRW`        Benchmark for real-world datasets.
-- `indexBam`           Index bam files.
-- `representative`     Select representatives from fasta formatted cluster files.
-- `abundance`          Generate abundance table from metagenomic data.
-- `abundanceTest`      Significance test for abundance.
-- `variant`            Call SNPs from metagenomic data.
-- `mwas`               MWAS for metagenomic data.
-- `plotMWAS`           QQ and Manhattan plots for MWAS results.
-- `checkm2`            Estimate the quality of clusters using CheckM2.
-- `gtdbtk`             Classify the clusters using GTDB-Tk.
+- [`coverage`](./README.md#coverage)           Generate COVERAGE file from bam files.
+- [`seed`](./README.md#seed)               Generate SEED file from an assembly file.
+- [`cluster`](./README.md#cluster)            Cluster sequences based on ASSEMBLY, COVERAGE and SEED files.
+- [`cluster2mapping`](./README.md#cluster2mapping)    Generate mapping file from fasta formatted cluster files.
+- [`mapping2cluster`](./README.md#mapping2cluster)    Generate fasta formatted cluster files from assembly and mapping file.
+- [`benchmarkGT`](./README.md#benchmarkGT)        Benchmark with ground truth.
+- [`benchmarkRW`](./README.md#benchmarkRW)        Benchmark for real-world datasets.
+- [`indexBam`](./README.md#indexBam)           Index bam files.
+- [`representative`](./README.md#representative)     Select representatives from fasta formatted cluster files.
+- [`abundance`](./README.md#abundance)          Generate abundance table from metagenomic data.
+- [`abundanceTest`](./README.md#abundanceTest)      Significance test for abundance.
+- [`variant`](./README.md#variant)            Call SNPs from metagenomic data.
+- [`mwas`](./README.md#mwas)               MWAS for metagenomic data.
+- [`plotMWAS`](./README.md#plotMWAS)           QQ and Manhattan plots for MWAS results.
+- [`checkm2`](./README.md#checkm2)            Estimate the quality of clusters using CheckM2.
+- [`gtdbtk`](./README.md#gtdbtk)             Classify the clusters using GTDB-Tk.
 
 Try `MetaCAT [command] -h|--help` for full help.
 
 ### coverage
 
-```TEXT
+```text
 usage: MetaCAT coverage [options] -b <BAMs> -o <COVERAGE>
 
 options:
