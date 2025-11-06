@@ -4,14 +4,14 @@ Metagenome Clustering and Association Tool.
 
 ## Getting started
 
-1. [`Group metagenomic sequences into clusters`](./README.md#Group-metagenomic-sequences-into-clusters)
-2. [`Evaluate the clusters`](./README.md#Evaluate-the-clusters)
-3. [`Classify the clusters`](./README.md#Classify-the-clusters)
-4. [`Define a set of representative genomes`](./README.md#Define-a-set-of-representative-genomes)
-5. [`Compute the relative abundance table`](./README.md#Compute-the-relative-abundance-table)
-6. [`Determine the differential marker species`](./README.md#Determine-the-differential-marker-species)
-7. [`Call microbial SNPs`](./README.md#Call-microbial-SNPs)
-8. [`Perform MWAS for metagenomic data`](./README.md#Perform-MWAS-for-metagenomic-data)
+- [`Group metagenomic sequences into clusters`](./README.md#Group-metagenomic-sequences-into-clusters)
+- [`Evaluate the clusters`](./README.md#Evaluate-the-clusters)
+- [`Classify the clusters`](./README.md#Classify-the-clusters)
+- [`Define a set of representative genomes`](./README.md#Define-a-set-of-representative-genomes)
+- [`Compute the relative abundance table`](./README.md#Compute-the-relative-abundance-table)
+- [`Determine the differential marker species`](./README.md#Determine-the-differential-marker-species)
+- [`Call microbial SNPs`](./README.md#Call-microbial-SNPs)
+- [`Perform MWAS for metagenomic data`](./README.md#Perform-MWAS-for-metagenomic-data)
 
 ### Group metagenomic sequences into clusters
 
@@ -140,7 +140,7 @@ it is recommended to reduce the number of threads (e.g., -tc 20 -ti 20).
 
 - An abundance file `metacat.abundance`.
 
-- A group file `group`.
+- A group file [`group`](./README.md#group).
 
 #### Significance test for abundance
 
@@ -179,9 +179,9 @@ it is recommended to reduce the number of threads (e.g., -tc 20 -ti 20).
 
 - An abundance file `metacat.abundance`.
 
-- A phenotype file `phenotype`.
+- A phenotype file [`phenotype`](./README.md#phenotype).
 
-- A covariate file `covariate`.
+- A covariate file [`covariate`](./README.md#covariate).
 
 - A variant file `metacat.variant`.
 
