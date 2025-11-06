@@ -85,6 +85,12 @@ and a set of pdf formatted plot files `metacat.benchmarkRW.*.pdf`.
 MetaCAT gtdbtk --fasta metacat.*.fasta --output metacat.gtdbtk
 ```
 
+`MetaCAT gtdbtk` will generate a `GTDB-Tk.msh` file during the first run.
+
+`GTDB-Tk.msh` is dataset-independent and only depends on the GTDB you use.
+
+Therefore, it can be specified in subsequent runs with `--mash-db GTDB-Tk.msh` to skip this step.
+
 ### Define a set of representative genomes
 
 #### Preparations
