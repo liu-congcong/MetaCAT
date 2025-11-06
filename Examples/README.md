@@ -18,7 +18,9 @@ All reads were trimmed, and host DNA was removed by yourself.
 
 Assemblies were constructed either for each individual separately or for all individuals together.
 
-**Assume the following dependencies are in your system path.**
+**Assume the following dependencies are in your system path!**
+
+**Activate the environments first if the following programs are installed!**
 
 - `bowtie2`
 - `checkm2`
