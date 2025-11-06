@@ -49,7 +49,9 @@ and a set of fasta formatted cluster files `metacat.*.fasta`.
 
 - A set of fasta formatted cluster files `metacat.*.fasta`.
 
-- `checkm2` has been installed and is available in the system PATH.
+- `checkm2` is installed and available in the system PATH.
+
+- Activate the `checkm2` environment first if it is installed!
 
 #### Estimate the quality of clusters using CheckM2
 
@@ -77,7 +79,9 @@ and a set of pdf formatted plot files `metacat.benchmarkRW.*.pdf`.
 
 - A set of fasta formatted cluster files `metacat.*.fasta`.
 
-- `gtdbtk` has been installed and is available in the system PATH.
+- `gtdbtk` is installed and available in the system PATH.
+
+- Activate the `gtdbtk` environment first if it is installed!
 
 #### Classify the clusters using GTDB-Tk
 
@@ -101,7 +105,7 @@ Therefore, it can be specified in subsequent runs with `--mash-db GTDB-Tk.msh` t
 
 - Classification results `metacat.gtdbtk`.
 
-- `fastANI` has been installed and is available in the system PATH, FastANI is used to compute the similarity between paired genomes.
+- `fastANI` is installed and available in the system PATH, FastANI is used to compute the similarity between paired genomes.
 
 #### Select representatives from fasta formatted cluster files
 
