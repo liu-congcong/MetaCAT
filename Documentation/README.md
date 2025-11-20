@@ -17,125 +17,123 @@ Metagenome Clustering and Association Tool.
 
 #### Preparations
 
-- A fasta formatted assembly file `assembly`.
+- A fasta formatted assembly file `dataset.assembly`.
 
-- A set of sorted bam files with the same header `*.bam`.
+- A set of sorted bam files with the same header `dataset.*.bam`.
 
 #### Generate COVERAGE file from bam files
 
 ```bash
-MetaCAT coverage --bam *.bam --output metacat.coverage
+MetaCAT coverage --bam dataset.*.bam --output dataset.metacat.coverage
 ```
 
 #### Generate SEED file from an assembly file
 
 ```bash
-MetaCAT seed --fasta assembly --output metacat.seed
+MetaCAT seed --fasta dataset.assembly --output dataset.metacat.seed
 ```
 
 #### Cluster sequences based on ASSEMBLY, COVERAGE and SEED files
 
 ```bash
-MetaCAT cluster --fasta assembly --coverage metacat.coverage --seed metacat.seed --output metacat
+MetaCAT cluster --fasta dataset.assembly --coverage dataset.metacat.coverage --seed dataset.metacat.seed --output dataset.metacat
 ```
 
-This step will generate a mapping file `metacat.mapping`,
+This step will generate a mapping file `dataset.metacat.mapping`,
 
-and a set of fasta formatted cluster files `metacat.*.fasta`.
+and a set of fasta formatted cluster files `dataset.metacat.*.fasta`.
 
 ### Evaluate the clusters
 
 #### Preparations
 
-- A set of fasta formatted cluster files `metacat.*.fasta`.
+- A set of fasta formatted cluster files `dataset.metacat.*.fasta`.
 
-- `checkm2` is installed and available in the system PATH.
+- `checkm2` and its dataset are installed and available in the system PATH.
 
 - Activate the `checkm2` environment first if it is installed!
 
 #### Estimate the quality of clusters using CheckM2
 
 ```bash
-MetaCAT checkm2 --fasta metacat.*.fasta --output metacat.checkm2
+MetaCAT checkm2 --fasta dataset.metacat.*.fasta --output dataset.metacat.checkm2
 ```
+
+The output file is identical to the concatenated files produced by `checkm2 predict`.
+
+If the file is generated manually, ensure that it includes only one header line.
 
 #### Benchmark for real-world datasets
 
 ```bash
-MetaCAT benchmarkRW --combine --checkm2 metacat.checkm2 --output metacat.benchmarkRW
+MetaCAT benchmarkRW --combine --checkm2 dataset.metacat.checkm2 --output dataset.metacat.benchmarkRW
 ```
 
 The format of the 1st column in `checkm2` must be "Dataset.Program.ClusterID".
 
 "Dataset" and "ClusterID" fields must contain no dots.
 
-This step will generate a benchmark file `metacat.benchmarkRW.tsv`,
+This step will generate a benchmark file `dataset.metacat.benchmarkRW.tsv`,
 
-and a set of pdf formatted plot files `metacat.benchmarkRW.*.pdf`.
+and a set of pdf formatted plot files `dataset.metacat.benchmarkRW.*.pdf`.
 
 ### Classify the clusters
 
 #### Preparations
 
-- A set of fasta formatted cluster files `metacat.*.fasta`.
+- A set of fasta formatted cluster files `dataset.metacat.*.fasta`.
 
-- `gtdbtk` is installed and available in the system PATH.
+- `gtdbtk` and its database are installed and available in the system PATH.
 
 - Activate the `gtdbtk` environment first if it is installed!
 
 #### Classify the clusters using GTDB-Tk
 
 ```bash
-MetaCAT gtdbtk --fasta metacat.*.fasta --output metacat.gtdbtk
+MetaCAT gtdbtk --fasta dataset.metacat.*.fasta --output dataset.metacat.gtdbtk
 ```
-
-`MetaCAT gtdbtk` will generate a `GTDB-Tk.msh` file during the first run.
-
-`GTDB-Tk.msh` is dataset-independent and only depends on the GTDB you use.
-
-Therefore, it can be specified in subsequent runs with `--mash-db GTDB-Tk.msh` to skip this step.
 
 ### Define a set of representative genomes
 
 #### Preparations
 
-- A set of fasta formatted cluster files `metacat.*.fasta`.
+- A set of fasta formatted cluster files `dataset.metacat.*.fasta`.
 
-- Quality assignment results `metacat.checkm2`.
+- Quality assignment results `dataset.metacat.checkm2`.
 
-- Classification results `metacat.gtdbtk`.
+- Classification results `dataset.metacat.gtdbtk`.
 
 - `fastANI` is installed and available in the system PATH, FastANI is used to compute the similarity between paired genomes.
 
 #### Select representatives from fasta formatted cluster files
 
 ```bash
-MetaCAT representative --fasta metacat.*.fasta --checkm2 metacat.checkm2 --gtdbtk metacat.gtdbtk --output metacat.representative
+MetaCAT representative --fasta dataset.metacat.*.fasta --checkm2 dataset.metacat.checkm2 --gtdbtk dataset.metacat.gtdbtk --output dataset.metacat.representative
 ```
 
-This step will generate a mapping file `metacat.representative.mapping`,
+This step will generate a mapping file `dataset.metacat.representative.mapping`,
 
-a fasta formatted assembly file `metacat.representative.assembly`,
+a fasta formatted assembly file `dataset.metacat.representative.assembly`,
 
-and an annotation file `metacat.representative.annotation`.
+and an annotation file `dataset.metacat.representative.annotation`.
 
-After this step, all bam files must be regenerated using the new assembly `metacat.representative.assembly`.
+After this step, all bam files must be regenerated using the new assembly `dataset.metacat.representative.assembly`.
 
 ### Compute the relative abundance table
 
 #### Preparations
 
-- A representative annotation file `metacat.representative.annotation`.
+- A representative annotation file `dataset.metacat.representative.annotation`.
 
-- A representative mapping file `metacat.representative.mapping`.
+- A representative mapping file `dataset.metacat.representative.mapping`.
 
-- A set of sorted bam files with the same header `*.bam`.
+- A set of sorted bam files with the same header `dataset.*.bam`.
 
 #### Generate abundance table from metagenomic data
 
 ```bash
-MetaCAT abundance --annotation metacat.representative.annotation --mapping metacat.representative.mapping \
---bam *.bam --output metacat.abundance
+MetaCAT abundance --annotation dataset.metacat.representative.annotation --mapping dataset.metacat.representative.mapping \
+--bam dataset.*.bam --output dataset.metacat.abundance
 ```
 
 Sample IDs are defined as the basenames of the bam files, excluding file extensions.
@@ -148,33 +146,33 @@ it is recommended to reduce the number of threads (e.g., -tc 20 -ti 20).
 
 #### Preparations
 
-- An abundance file `metacat.abundance`.
+- An abundance file `dataset.metacat.abundance`.
 
 - A group file [`group`](./README.md#group).
 
 #### Significance test for abundance
 
 ```bash
-MetaCAT abundanceTest --abundance metacat.abundance --group group --output metacat.abundanceTest
+MetaCAT abundanceTest --abundance dataset.metacat.abundance --group group --output dataset.metacat.abundanceTest
 ```
 
-This step will generate a set of pdf formatted plot files `metacat.abundanceTest.*.pdf`.
+This step will generate a set of pdf formatted plot files `dataset.metacat.abundanceTest.*.pdf`.
 
 ### Call microbial SNPs
 
 #### Preparations
 
-- A representative annotation file `metacat.representative.annotation`.
+- A representative annotation file `dataset.metacat.representative.annotation`.
 
-- A representative mapping file `metacat.representative.mapping`.
+- A representative mapping file `dataset.metacat.representative.mapping`.
 
-- A set of sorted bam files with the same header `*.bam`.
+- A set of sorted bam files with the same header `dataset.*.bam`.
 
 #### Call SNPs from metagenomic data
 
 ```bash
-MetaCAT variant --annotation metacat.representative.annotation --mapping metacat.representative.mapping \
---bam *.bam --output metacat.variant
+MetaCAT variant --annotation dataset.metacat.representative.annotation --mapping dataset.metacat.representative.mapping \
+--bam dataset.*.bam --output dataset.metacat.variant
 ```
 
 Sample IDs are defined as the basenames of the bam files, excluding file extensions.
@@ -187,28 +185,28 @@ it is recommended to reduce the number of threads (e.g., -tc 20 -ti 20).
 
 #### Preparations
 
-- An abundance file `metacat.abundance`.
+- An abundance file `dataset.metacat.abundance`.
 
 - A phenotype file [`phenotype`](./README.md#phenotype).
 
 - A covariate file [`covariate`](./README.md#covariate).
 
-- A variant file `metacat.variant`.
+- A variant file `dataset.metacat.variant`.
 
 #### MWAS for metagenomic data
 
 ```bash
-MetaCAT mwas --abundance metacat.abundance --phenotype phenotype \
---covariate covariate --variant metacat.variant --output metacat.mwas
+MetaCAT mwas --abundance dataset.metacat.abundance --phenotype phenotype \
+--covariate covariate --variant dataset.metacat.variant --output dataset.metacat.mwas
 ```
 
 #### QQ and Manhattan plots for MWAS results
 
 ```bash
-MetaCAT plotMWAS --mwas metacat.mwas --output metacat.plotMWAS
+MetaCAT plotMWAS --mwas dataset.metacat.mwas --output dataset.metacat.plotMWAS
 ```
 
-This step will generate two pdf formatted plot files `metacat.plotMWAS.*.pdf`.
+This step will generate two pdf formatted plot files `dataset.metacat.plotMWAS.*.pdf`.
 
 ---
 
@@ -843,9 +841,6 @@ optional arguments:
                         Path to the output file.
   --fasta-suffix <str>  If directories are provided with "-f|--fasta", only files with the specified suffix will be selected.
                         Default: fasta.
-  --mash-db <str>       Path to the Mash reference sketch database used by GTDB-Tk.
-                        If not specified, it will be automatically created as "GTDB-Tk.msh".
-                        Default: GTDB-Tk.msh.
   -c <str>, --checkm2 <str>
                         Path to the file generated by MetaCAT's checkm2.
                         A header line "Name<tab>Completeness<tab>Contamination ..." should be present.

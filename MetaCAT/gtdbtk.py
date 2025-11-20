@@ -47,6 +47,6 @@ def main(parameters):
     else:
         clusters = None
     batchFile = createBatchFile(parameters.fasta, clusters)
-    runGtdbtk(parameters.gtdbtk, parameters.threads, batchFile, parameters.mash_db, parameters.output)
+    runGtdbtk(parameters.gtdbtk, parameters.threads, batchFile, parameters.output)
     os.remove(batchFile)
     return None

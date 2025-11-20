@@ -37,12 +37,12 @@ By default, MetaCAT uses the `checkm2` from the environment.
 
 You can specify its path using the `--checkm2` option.
 
-`CheckM2` and its database (*.dmnd) must be installed manually, for example:
+`CheckM2` and its database (*.dmnd) must be installed manually, for examples:
 
 ```bash
 pip3 install checkm2==1.0.1
-checkm2 database --download --path /path/to/database # downloads the database into the specified folder
-checkm2 database --setdblocation /path/to/*.dmnd # sets the specified database file as the active DB
+checkm2 database --download --path /path/to/database
+checkm2 database --setdblocation /path/to/*.dmnd
 ```
 
 For more details, please visit the [`CheckM2`](https://github.com/chklovski/CheckM2) repository.
