@@ -59,9 +59,7 @@ and a set of fasta formatted cluster files `dataset.metacat.*.fasta`.
 MetaCAT checkm2 --fasta dataset.metacat.*.fasta --output dataset.metacat.checkm2
 ```
 
-The output file is identical to the concatenated files produced by `checkm2 predict`.
-
-If the file is generated manually, ensure that it includes only one header line.
+The output file is identical to the `quality_report.tsv` file produced by `checkm2 predict`.
 
 #### Benchmark for real-world datasets
 
@@ -92,6 +90,10 @@ and a set of pdf formatted plot files `dataset.metacat.benchmarkRW.*.pdf`.
 ```bash
 MetaCAT gtdbtk --fasta dataset.metacat.*.fasta --output dataset.metacat.gtdbtk
 ```
+
+The output file is identical to the concatenated `*.summary.tsv` files produced by `gtdbtk classify_wf`.
+
+If the file is generated manually, ensure that it includes only one header line.
 
 ### Define a set of representative genomes
 
