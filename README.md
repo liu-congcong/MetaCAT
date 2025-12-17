@@ -18,6 +18,8 @@ Metagenome Clustering and Association Tool.
 
 - [`FastANI`](https://github.com/ParBLiSS/FastANI)
 
+- [`skani`](https://github.com/bluenote-1577/skani)
+
 ### Dependencies used for clutering sequneces
 
 `FragGeneScan`, `hmmpress` and `hmmsearch` (from the `Hmmer` tool) are used in the `seed` command of MetaCAT.
@@ -40,7 +42,7 @@ You can specify its path using the `--checkm2` option.
 `CheckM2` and its database (*.dmnd) must be installed manually, for examples:
 
 ```bash
-pip3 install checkm2==1.0.1
+pip3 install checkm2 # CheckM2 v1.0.1 has been tested #
 checkm2 database --download --path /path/to/database
 checkm2 database --setdblocation /path/to/*.dmnd
 ```
@@ -58,10 +60,17 @@ You can specify its path using the `--gtdbtk` option.
 `GTDB-Tk` must be installed manually, for example:
 
 ```bash
-pip3 install gtdbtk==2.3.2
+pip3 install gtdbtk # GTDB-TK v2.3.2 has been tested #
 ```
 
 Please note that you also need to install the `GTDB-Tk` database and other required dependencies.
+
+```bash
+wget https://data.gtdb.ecogenomic.org/releases/release226/226.0/auxillary_files/gtdbtk_package/full_package/gtdbtk_r226_data.tar.gz
+tar xvf gtdbtk_r226_data.tar.gz
+mv release226 ~/gtdb-226
+echo "export GTDBTK_DATA_PATH="$HOME/gtdb-226"" >> ~/.bashrc
+```
 
 Use the following command to verify the installation:
 
@@ -73,7 +82,7 @@ For more details, please visit the [`GTDB-Tk`](https://github.com/Ecogenomics/GT
 
 ### Dependencies used for selecting representatives
 
-`Mash` or `FastANI` is used in the `representative` command of MetaCAT.
+`Mash` or `FastANI` or `Skani` is used in the `representative` command of MetaCAT.
 
 By default, MetaCAT uses the built-in `Mash` binary \
 if you are running on a supported platform (i.e., x86_64 Linux or arm macOS).
@@ -82,13 +91,13 @@ Otherwise, you need to compile `Mash` manually and ensure it is callable by Meta
 
 You can specify its path using the `--mash` option.
 
-Additionally, we provide `FastANI` as an alternative (`--engine fastANI`) in `representative` command.
+Additionally, we provide `FastANI` and `Skani` as alternatives (`--engine fastANI|skani`) in `representative` command.
 
-To use `FastANI`, you need to compile it manually.
+To use `FastANI` or `Skani`, you need to compile it manually.
 
-MetaCAT uses `FastANI` from the environment by default.
+MetaCAT uses `FastANI` or `Skani` from the environment by default.
 
-You can specify its path using the `--fastani` option.
+You can specify its path using the `--fastani` or `--skani` option.
 
 ## Install MetaCAT
 
@@ -147,5 +156,7 @@ Fixed a bug in the `checkm2` command that occurred when handling a large number 
 ### v1.0.3
 
 Fixed a bug that could potentially cause a segmentation fault.
+
+Support `skani`.
 
 Rewrite indexBam.

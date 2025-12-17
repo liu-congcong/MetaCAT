@@ -59,7 +59,9 @@ and a set of fasta formatted cluster files `dataset.metacat.*.fasta`.
 MetaCAT checkm2 --fasta dataset.metacat.*.fasta --output dataset.metacat.checkm2
 ```
 
-The output file is identical to the `quality_report.tsv` file produced by `checkm2 predict`.
+The output file is identical to the concatenated files produced by `checkm2 predict`.
+
+If the file is generated manually, ensure that it includes only one header line.
 
 #### Benchmark for real-world datasets
 
@@ -91,10 +93,6 @@ and a set of pdf formatted plot files `dataset.metacat.benchmarkRW.*.pdf`.
 MetaCAT gtdbtk --fasta dataset.metacat.*.fasta --output dataset.metacat.gtdbtk
 ```
 
-The output file is identical to the concatenated `*.summary.tsv` files produced by `gtdbtk classify_wf`.
-
-If the file is generated manually, ensure that it includes only one header line.
-
 ### Define a set of representative genomes
 
 #### Preparations
@@ -105,7 +103,7 @@ If the file is generated manually, ensure that it includes only one header line.
 
 - Classification results `dataset.metacat.gtdbtk`.
 
-- `fastANI` is installed and available in the system PATH, FastANI is used to compute the similarity between paired genomes.
+- `mash`(built-in)|`fastANI`|`skani` is installed and available in the system PATH.
 
 #### Select representatives from fasta formatted cluster files
 
@@ -559,15 +557,14 @@ optional arguments:
                         Number of threads.
                         The value should be a positive integer.
                         Default: all threads.
-  -e {fastANI,mash}, --engine {fastANI,mash}
+  -e {fastANI,mash,skani}, --engine {fastANI,mash,skani}
                         Engine for computing the similarity between paired genomes.
                         Default: mash.
+  --ani <float>         Minimum ANI to consider genomes as the same species.
+                        The value should be from 0 to 100.
+                        Default: 95.0.
   --mash <str>          Path to the "mash".
                         Default: internal mash.
-  --mash-distance <float>
-                        Maximum mash distance.
-                        The value should be from 0 to 1.
-                        Default: 0.05.
   --mash-kmer-size <int>
                         K-mer size used in Mash.
                         The value should be a positive integer.
@@ -578,10 +575,6 @@ optional arguments:
                         Default: 5000.
   --fastani <str>       Path to the "fastANI".
                         Default: environmental fastANI.
-  --fastani-ani <float>
-                        Minimum ANI to consider genomes as the same species.
-                        The value should be from 0 to 100.
-                        Default: 95.0.
   --fastani-kmer-size <int>
                         K-mer size used in fastANI.
                         The value should be a positive integer.
@@ -590,6 +583,16 @@ optional arguments:
                         Fragment length used in Mash.
                         The value should be a positive integer.
                         Default: 3000.
+  --skani <str>         Path to the "skani".
+                        Default: environmental skani.
+  --skani-compression-factor <int>
+                        Compression factor used in skani.
+                        The value should be a positive integer.
+                        Default: 125.
+  --skani-marker-kmer-compression-factor <int>
+                        Marker k-mer compression factor used in skani.
+                        The value should be a positive integer.
+                        Default: 1000.
   --fasta-suffix <str>  If directories are provided with "-f|--fasta", only files with the specified suffix will be selected.
                         Default: fasta.
   --contamination <float>
