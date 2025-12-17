@@ -1,17 +1,18 @@
-from ctypes import c_int64
 import gzip
-from multiprocessing import Process, Queue
-from multiprocessing.sharedctypes import RawArray, Value
 import os
+from ctypes import c_int64
 from datetime import datetime
 from math import log10
+from multiprocessing import Process, Queue
+from multiprocessing.sharedctypes import RawArray, Value
 
 import numpy
 
-from .fasta import readFastaFile, getNx
+from .fasta import getNx, readFastaFile
 from .fastani import runFastani
 from .mash import runMash
 from .processbar import ProcessBar
+from .skani import runSkani
 
 
 def isGzipped(file):
@@ -206,6 +207,54 @@ def determineRepresentivesFastani(fastani, fastaniT, fastaniANI, fastaniK, fasta
     return representives
 
 
+def readSkaniFile(nodes, ani, file):
+    n = len(nodes)
+    node2index = dict((node, i) for i, node in enumerate(nodes))
+    matrix = numpy.zeros(shape = (n, n), dtype = numpy.int8)
+    openFile = open(file, 'r')
+    openFile.readline()
+    for line in openFile:
+        lines = line.rstrip('\n').split('\t')
+        if lines[0] != lines[1] and float(lines[2]) >= ani:
+            nodeI = node2index[lines[0]]
+            nodeJ = node2index[lines[1]]
+            matrix[nodeI, nodeJ] = 1
+            matrix[nodeJ, nodeI] = 1
+    openFile.close()
+    return matrix
+
+
+def determineRepresentivesSkani(skani, skaniT, skaniANI, skaniC, skaniM, cluster2file, dpcofg2s2x):
+    representives = list()
+    processBar = ProcessBar(len(dpcofg2s2x))
+    X = list()
+    for i, (dpcofg, s2x) in enumerate(dpcofg2s2x.items(), start = 1):
+        for s, x in s2x.items():
+            if s != 's__':
+                X.append(max(x))
+                representives.append((X[-1][1], cluster2file[X[-1][1]], f'{dpcofg};{s}'))
+        if 's__' in s2x:
+            offset = len(X)
+            s2x['s__'].sort(reverse = True)
+            X.extend(s2x['s__'])
+            clusterFiles = [cluster2file[i[1]] for i in X]
+            tempfile = runSkani(skani, skaniT, skaniC, skaniM, clusterFiles)
+            matrix = readSkaniFile(clusterFiles, skaniANI, tempfile)
+            os.remove(tempfile)
+            y = numpy.zeros(shape = matrix.shape[0], dtype = numpy.bool_)
+            y[ : offset] = True
+            j = 1
+            for k in range(offset, y.size):
+                if numpy.all(matrix[k, y] == 0):
+                    y[k] = True
+                    g = dpcofg.rsplit(';', maxsplit = 1)[1][3 : ]
+                    representives.append((X[k][1], cluster2file[X[k][1]], f'{dpcofg};s__{g} {j}'))
+                    j += 1
+        X.clear()
+        processBar.plot(i)
+    return representives
+
+
 def writeFile(prefix, x):
     openFile1 = open(f'{prefix}.annotation', 'w')
     openFile1.write('Cluster ID\tClassification\n')
@@ -244,11 +293,15 @@ def main(parameters):
         dpcofg2s2x.setdefault(dpcofg_s[0], dict()).setdefault(dpcofg_s[1], list()).append((cluster2score[cluster], cluster))
     if parameters.engine == 'mash':
         representives = determineRepresentivesMash(
-            parameters.mash, parameters.threads, parameters.mash_distance, parameters.mash_kmer_size, parameters.mash_sketch_size, cluster2file, dpcofg2s2x
+            parameters.mash, parameters.threads, 1 - 0.01 * parameters.ani, parameters.mash_kmer_size, parameters.mash_sketch_size, cluster2file, dpcofg2s2x
+        )
+    elif parameters.engine == 'fastANI':
+        representives = determineRepresentivesFastani(
+            parameters.fastani, parameters.threads, parameters.ani, parameters.fastani_kmer_size, parameters.fastani_fragment_length, cluster2file, dpcofg2s2x
         )
     else:
-        representives = determineRepresentivesFastani(
-            parameters.fastani, parameters.threads, parameters.fastani_ani, parameters.fastani_kmer_size, parameters.fastani_fragment_length, cluster2file, dpcofg2s2x
+        representives = determineRepresentivesSkani(
+            parameters.skani, parameters.threads, parameters.ani, parameters.skani_compression_factor, parameters.skani_marker_kmer_compression_factor, cluster2file, dpcofg2s2x
         )
     print(f'{datetime.now().strftime("%Y-%m-%d %H:%M:%S")} -> Writing to \"{parameters.output}.*\".', flush = True)
     writeFile(parameters.output, representives)

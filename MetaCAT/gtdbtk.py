@@ -1,6 +1,6 @@
 import os
 from shutil import rmtree
-from subprocess import DEVNULL, run
+from subprocess import DEVNULL, PIPE, STDOUT, run
 from uuid import uuid4
 
 from .checkm2 import readCheckm2File
@@ -19,13 +19,20 @@ def createBatchFile(inputFiles, clusters):
     return outputFile
 
 
-def runGtdbtk(gtdbtk, threads, inputFile, mashDatabase, outputFile):
+def runGtdbtk(gtdbtk, threads, inputFile, outputFile):
     temp = uuid4().hex
-    completedProcess = run(
-        [gtdbtk, 'classify_wf', '--batchfile', inputFile, '--out_dir', temp, '--mash_db', mashDatabase, '--cpus', str(threads)],
-        stdout = None, stderr = None
-    )
+    command = [gtdbtk, 'classify_wf', '--batchfile', inputFile, '--out_dir', temp, '--cpus', str(threads), '--force']
+    # --mash_db #
+    completedProcess = run([gtdbtk, 'classify_wf', '-h'], stdout = PIPE, stderr = STDOUT)
     assert not completedProcess.returncode, 'An error has occurred while running GTDB-Tk.'
+    for line in completedProcess.stdout.decode('utf-8', errors = 'ignore').splitlines():
+        if line.lstrip().startswith('--mash_db'):
+            command.extend(['--mash_db', f'{temp}.msh'])
+            break
+    completedProcess = run(command, stdout = None, stderr = None)
+    assert not completedProcess.returncode, 'An error has occurred while running GTDB-Tk.'
+    if os.access(f'{temp}.msh', os.R_OK):
+        os.remove(f'{temp}.msh')
     open4w = open(outputFile, 'w')
     open4w.write('user_genome\tclassification\tfastani_reference\tfastani_reference_radius\tfastani_taxonomy\tfastani_ani\tfastani_af\tclosest_placement_reference\tclosest_placement_radius\tclosest_placement_taxonomy\tclosest_placement_ani\tclosest_placement_af\tpplacer_taxonomy\tclassification_method\tnote\tother_related_references(genome_id,species_name,radius,ANI,AF)\tmsa_percent\ttranslation_table\tred_value\twarnings\n')
     for i in ('bac120', 'ar53'):

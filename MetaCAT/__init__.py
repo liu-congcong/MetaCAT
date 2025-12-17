@@ -422,16 +422,16 @@ def __init__():
         help = f'Number of threads.\nThe value should be a positive integer.\nDefault: {os.cpu_count()}.'
     )
     representative_parser.add_argument(
-        '-e', '--engine', default = 'mash', type = str, choices = ('fastANI', 'mash'), required = False,
+        '-e', '--engine', default = 'mash', type = str, choices = ('fastANI', 'mash', 'skani'), required = False,
         help = f'Engine for computing the similarity between paired genomes.\nDefault: mash.'
+    )
+    representative_parser.add_argument(
+        '--ani', default = 95.0, type = float, required = False, metavar = '<float>',
+        help = 'Minimum ANI to consider genomes as the same species.\nThe value should be from 0 to 100.\nDefault: 95.0.'
     )
     representative_parser.add_argument(
         '--mash', type = str, required = False, metavar = '<str>',
         help = 'Path to the "mash".\nDefault: internal mash.'
-    )
-    representative_parser.add_argument(
-        '--mash-distance', default = 0.05, type = float, required = False, metavar = '<float>',
-        help = 'Maximum mash distance.\nThe value should be from 0 to 1.\nDefault: 0.05.'
     )
     representative_parser.add_argument(
         '--mash-kmer-size', default = 21, type = int, required = False, metavar = '<int>',
@@ -446,16 +446,24 @@ def __init__():
         help = 'Path to the "fastANI".\nDefault: environmental fastANI.'
     )
     representative_parser.add_argument(
-        '--fastani-ani', default = 95.0, type = float, required = False, metavar = '<float>',
-        help = 'Minimum ANI to consider genomes as the same species.\nThe value should be from 0 to 100.\nDefault: 95.0.'
-    )
-    representative_parser.add_argument(
         '--fastani-kmer-size', default = 16, type = int, required = False, metavar = '<int>',
         help = 'K-mer size used in fastANI.\nThe value should be a positive integer.\nDefault: 16.'
     )
     representative_parser.add_argument(
         '--fastani-fragment-length', default = 3000, type = int, required = False, metavar = '<int>',
         help = 'Fragment length used in Mash.\nThe value should be a positive integer.\nDefault: 3000.'
+    )
+    representative_parser.add_argument(
+        '--skani', default = 'skani', type = str, required = False, metavar = '<str>',
+        help = 'Path to the "skani".\nDefault: environmental skani.'
+    )
+    representative_parser.add_argument(
+        '--skani-compression-factor', default = 125, type = int, required = False, metavar = '<int>',
+        help = 'Compression factor used in skani.\nThe value should be a positive integer.\nDefault: 125.'
+    )
+    representative_parser.add_argument(
+        '--skani-marker-kmer-compression-factor', default = 1000, type = int, required = False, metavar = '<int>',
+        help = 'Marker k-mer compression factor used in skani.\nThe value should be a positive integer.\nDefault: 1000.'
     )
     representative_parser.add_argument(
         '--fasta-suffix', default = 'fasta', type = str, required = False, metavar = '<str>',
@@ -950,18 +958,21 @@ def parse_parameters(parameters):
         parameters.output = os.path.abspath(parameters.output)
         io_test.isWriteable(f'{parameters.output}.{random}')
         assert parameters.threads > 0, '"-t|--threads" should be a positive integer.'
+        assert parameters.ani >= 0 and parameters.ani <= 100, '"--ani" should be from 0 to 100.'
         if parameters.engine == 'mash':
             if parameters.mash is None:
                 parameters.mash = c.findBinary('mash')
             parameters.mash = io_test.findExecutablePath(parameters.mash, '--mash')
-            assert parameters.mash_distance >= 0 and parameters.mash_distance <= 1, '"--mash-distance" should be from 0 to 1.'
             assert parameters.mash_kmer_size > 0, '"--mash-kmer-size" should be a positive integer.'
             assert parameters.mash_sketch_size > 0, '"--mash-sketch-size" should be a positive integer.'
-        else:
+        elif parameters.engine == 'fastANI':
             parameters.fastani = io_test.findExecutablePath(parameters.fastani, '--fastani')
-            assert parameters.fastani_ani >= 0 and parameters.fastani_ani <= 100, '"--fastani-ani" should be from 0 to 100.'
             assert parameters.fastani_kmer_size > 0, '"--fastani-kmer-size" should be a positive integer.'
             assert parameters.fastani_fragment_length > 0, '"--fastani-fragment-length" should be a positive integer.'
+        else:
+            parameters.skani = io_test.findExecutablePath(parameters.skani, '--skani')
+            assert parameters.skani_compression_factor > 0, '"--skani-compression-factor" should be a positive integer.'
+            assert parameters.skani_marker_kmer_compression_factor > 0, '"--skani-marker-kmer-compression-factor" should be a positive integer.'
         assert parameters.contamination >= 0 and parameters.contamination <= 1, '"--contamination" should be from 0 to 1.'
         assert parameters.completeness >= 0 and parameters.completeness <= 1, '"--completeness" should be from 0 to 1.'
 

@@ -335,7 +335,6 @@ def main(parameters):
     gdm /= normalizer
     gdm **= 0.5
     numpy.putmask(gdm, gdm == 0, 1)
-    numpy.savez(parameters.output + '.gdm.npz', header = numpy.array(individuals), gdm = gdm, n = n)
 
     if parameters.mwas is not None:
         print(f'{datetime.now().strftime("%Y-%m-%d %H:%M:%S")} -> Loading mwas file.', flush = True)
