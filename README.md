@@ -43,7 +43,7 @@ You can specify its path using the `--checkm2` option.
 
 `CheckM2` and its database must be installed manually.
 
-Detailed installation instructions can be found [here](../Dependencies/README.md#Install-CheckM2).
+Detailed installation instructions can be found [here](./Dependencies/README.md#Install-CheckM2).
 
 For more details, please visit the [`CheckM2`](https://github.com/chklovski/CheckM2) repository.
 
@@ -57,7 +57,7 @@ You can specify its path using the `--gtdbtk` option.
 
 `GTDB-Tk` and its database must be installed manually.
 
-Detailed installation instructions can be found [here](../Dependencies/README.md#Install-GTDB-Tk).
+Detailed installation instructions can be found [here](./Dependencies/README.md#Install-GTDB-Tk).
 
 For more details, please visit the [`GTDB-Tk`](https://github.com/Ecogenomics/GTDBTk) repository.
 
