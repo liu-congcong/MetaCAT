@@ -86,6 +86,12 @@ mv ${i} gtdbtk/bin && chmod 755 gtdbtk/bin/${i}
 done
 ```
 
+### Run test
+
+```text
+gtdbtk test
+```
+
 ### Run gtdbtk command in MetaCAT
 
 ```text
