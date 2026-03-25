@@ -31,6 +31,8 @@ Otherwise, you need to compile them manually and ensure they are callable by Met
 
 You can specify their paths using `--fraggenescan`, `--hmmpress` and `--hmmsearch` options.
 
+Note that the built-in binaries are only accessible to the `seed` command and cannot be called by external programs.
+
 ### Dependencies used for estimating cluster quality
 
 `CheckM2` is used in the `checkm2` command of MetaCAT.
@@ -39,13 +41,9 @@ By default, MetaCAT uses the `checkm2` from the environment.
 
 You can specify its path using the `--checkm2` option.
 
-`CheckM2` and its database (*.dmnd) must be installed manually, for examples:
+`CheckM2` and its database must be installed manually.
 
-```bash
-pip3 install checkm2 # CheckM2 v1.0.1 has been tested #
-checkm2 database --download --path /path/to/database
-checkm2 database --setdblocation /path/to/*.dmnd
-```
+Detailed installation instructions can be found [here](../Dependencies/README.md#Install CheckM2).
 
 For more details, please visit the [`CheckM2`](https://github.com/chklovski/CheckM2) repository.
 
@@ -57,26 +55,9 @@ By default, MetaCAT uses `gtdbtk` from the environment.
 
 You can specify its path using the `--gtdbtk` option.
 
-`GTDB-Tk` must be installed manually, for example:
+`GTDB-Tk` and its database must be installed manually.
 
-```bash
-pip3 install gtdbtk # GTDB-TK v2.3.2 has been tested #
-```
-
-Please note that you also need to install the `GTDB-Tk` database and other required dependencies.
-
-```bash
-wget https://data.gtdb.ecogenomic.org/releases/release226/226.0/auxillary_files/gtdbtk_package/full_package/gtdbtk_r226_data.tar.gz
-tar xvf gtdbtk_r226_data.tar.gz
-mv release226 ~/gtdb-226
-echo "export GTDBTK_DATA_PATH="$HOME/gtdb-226"" >> ~/.bashrc
-```
-
-Use the following command to verify the installation:
-
-```bash
-gtdbtk --check_install
-```
+Detailed installation instructions can be found [here](../Dependencies/README.md#Install GTDB-Tk).
 
 For more details, please visit the [`GTDB-Tk`](https://github.com/Ecogenomics/GTDBTk) repository.
 
@@ -90,6 +71,8 @@ if you are running on a supported platform (i.e., x86_64 Linux or arm macOS).
 Otherwise, you need to compile `Mash` manually and ensure it is callable by MetaCAT.
 
 You can specify its path using the `--mash` option.
+
+Note that the built-in binaries are only accessible to the `representative` command and cannot be called by external programs.
 
 Additionally, we provide `FastANI` and `Skani` as alternatives (`--engine fastANI|skani`) in `representative` command.
 
