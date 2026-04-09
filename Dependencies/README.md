@@ -11,7 +11,7 @@ sudo apt install -y python3.12-venv libgomp1
 ## Install MetaCAT
 
 ```text
-python3 -m venv metacat && echo "export PATH=\"$(pwd)/metacat/bin:\$PATH\"" >> ~/.bashrc
+python3 -m venv metacat && echo "export PATH=\"\$PATH:$(pwd)/metacat/bin/\"" >> ~/.bashrc
 source metacat/bin/activate
 pip3 install ...
 deactivate && source ~/.bashrc
@@ -20,7 +20,7 @@ deactivate && source ~/.bashrc
 ## Install CheckM2
 
 ```text
-python3 -m venv checkm2 && echo "export PATH=\"$(pwd)/checkm2/bin:\$PATH\"" >> ~/.bashrc
+python3 -m venv checkm2 && echo "export PATH=\"\$PATH:$(pwd)/checkm2/bin/\"" >> ~/.bashrc
 source checkm2/bin/activate
 pip3 install setuptools wheel pandas numpy scipy requests tqdm lightgbm scikit-learn==1.6.1 tensorflow==2.17
 git clone --recursive https://github.com/liu-congcong/CheckM2.git checkm2-src && cd checkm2-src
@@ -61,7 +61,7 @@ MetaCAT checkm2 ...
 ## Install GTDB-Tk
 
 ```text
-python3 -m venv gtdbtk && echo "export PATH=\"$(pwd)/gtdbtk/bin:\$PATH\"" >> ~/.bashrc
+python3 -m venv gtdbtk && echo "export PATH=\"\$PATH:$(pwd)/gtdbtk/bin/\"" >> ~/.bashrc
 source gtdbtk/bin/activate
 pip3 install gtdbtk
 deactivate && source ~/.bashrc
