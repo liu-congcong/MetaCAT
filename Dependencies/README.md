@@ -40,7 +40,7 @@ deactivate && source ~/.bashrc
 MetaCAT gtdbtk -h
 ```
 
-## 2. Install dependencies using Conda/Mamba package manager
+## 2. Install metacat using Conda/Mamba package manager
 ### Create a virtual environment and activate:
 ```text
 conda create -n MetaCAT python=3.12
