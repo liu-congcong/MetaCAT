@@ -47,12 +47,14 @@ conda create -n MetaCAT python=3.12
 conda activate MetaCAT
 ```
 ### Install metacat using pip command in a virtual environment:
+
 ```text
 wget https://github.com/liu-congcong/MetaCAT/releases/download/v1.0.3/metacat-1.0.3-py3-none-any.whl
 pip install metacat-1.0.3-py3-none-any.whl
 echo "export PATH=\"\$PATH:$(pwd)/metacat/bin/\"" >> ~/.bashrc
 source ~/.bashrc && conda activate MetaCAT
 ```
+
 ### Install dependencies using package manager
 * prodigal: `pip install prodigal` or `conda install -c conda-forge -c bioconda prodigal`
 * diamond: `conda install -c conda-forge -c bioconda diamond`
@@ -63,6 +65,11 @@ source ~/.bashrc && conda activate MetaCAT
 * Guppy: `conda install -c conda-forge -c bioconda guppy`
 * gtdbtk: `pip install gtdbtk` or `conda install -c conda-forge -c bioconda gtdbtk`
 * checkm2: `conda install -c conda-forge -c bioconda checkm2`
+
+### Deactivate virtual environment
+```text
+conda deactivate MetaCAT
+```
 
 ## 3. Download database from [Zenodo](https://zenodo.org/records/14897628)
 
