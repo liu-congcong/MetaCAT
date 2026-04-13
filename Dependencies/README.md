@@ -9,7 +9,7 @@ pip3 install https://github.com/liu-congcong/MetaCAT/releases/download/v1.0.3/me
 deactivate && source ~/.bashrc
 ```
 
-### Install dependencies
+### Install dependencies using pre-built binary program
 
 * prodigal, diamond, FastTree, FastTreeMP, guppy, hmmalign, hmmsearch, pplacer, skani
 ```text
