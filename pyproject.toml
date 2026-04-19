@@ -1,0 +1,43 @@
+[build-system]
+requires = ["setuptools >= 70", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "MetaCAT"
+version = "1.0.4"
+description = "Metagenome Clustering and Association Tool."
+requires-python = ">=3.10"
+license = "GPL-3.0-or-later"
+authors = [{name = "Liucongcong", email = "congcong_liu@icloud.com"}]
+maintainers = [{name = "Liucongcong", email = "congcong_liu@icloud.com"}]
+dependencies = [
+    "matplotlib>=3.10.0",
+    "numpy",
+    "scipy>=1.11.0",
+    "scikit-learn",
+    "threadpoolctl",
+    "statsmodels"
+]
+
+[project.urls]
+Homepage = "https://github.com/liu-congcong/MetaCAT/"
+Documentation = "https://github.com/liu-congcong/MetaCAT/Documentation/"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["MetaCAT"]
+
+[tool.setuptools.package-data]
+MetaCAT = [
+    "*.dylib", "*.so", "*.dll",
+    "FragGeneScan-darwin-arm64", "FragGeneScan-linux-x86_64", "train/*",
+    "hmmsearch-darwin-arm64", "hmmsearch-linux-x86_64",
+    "mash-darwin-arm64", "mash-linux-x86_64",
+    "markers.gz"
+]
+
+[tool.setuptools.cmdclass]
+build_py = "MetaCAT.hook.PermissionHook"
+
+[project.scripts]
+MetaCAT = "MetaCAT:main"
