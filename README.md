@@ -4,21 +4,14 @@ Metagenome Clustering and Association Tool.
 
 ## Dependencies
 
-- [`CheckM2`](https://github.com/chklovski/CheckM2)
-
-- [`CuPy`](https://cupy.dev)
-
-- [`FragGeneScan`](https://sourceforge.net/projects/fraggenescan/)
-
-- [`GTDB-Tk`](https://github.com/Ecogenomics/GTDBTk)
-
-- [`Hmmer`](http://hmmer.org)
-
-- [`Mash`](https://github.com/marbl/Mash)
-
-- [`FastANI`](https://github.com/ParBLiSS/FastANI)
-
-- [`skani`](https://github.com/bluenote-1577/skani)
+[`CheckM2`](https://github.com/chklovski/CheckM2)
+[`CuPy`](https://cupy.dev)
+[`FragGeneScan`](https://sourceforge.net/projects/fraggenescan/)
+[`GTDB-Tk`](https://github.com/Ecogenomics/GTDBTk)
+[`Hmmer`](http://hmmer.org)
+[`Mash`](https://github.com/marbl/Mash)
+[`FastANI`](https://github.com/ParBLiSS/FastANI)
+[`skani`](https://github.com/bluenote-1577/skani)
 
 ### Dependencies used for clutering sequneces
 
@@ -79,6 +72,19 @@ MetaCAT uses `FastANI` or `Skani` from the environment by default.
 You can specify its path using the `--fastani` or `--skani` option.
 
 ## Install MetaCAT and dependencies
+
+If you only require the core functionalities of MetaCAT (e.g., clustering), installing MetaCAT alone is sufficient.
+
+`CheckM2`, `GTDB-Tk`, and their dependencies may require specific Python versions.
+
+The following installation includes MetaCAT and all required dependencies, and has been tested with Python 3.12.
+
+- `MetaCAT` will be installed in `./metacat`
+- `CheckM2` will be installed in `./checkm2`
+- `GTDB-Tk` will be installed in `./gtdbtk`
+- Binary dependencies (`CheckM2` & `GTDB-Tk`) will be installed in `./metacat/bin`
+
+You may adjust the installation paths as needed.
 
 ### Install MetaCAT
 
