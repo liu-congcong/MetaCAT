@@ -121,7 +121,7 @@ deactivate
 wget "https://zenodo.org/records/14897628/files/checkm2_database.tar.gz"
 tar xvf checkm2_database.tar.gz
 rm checkm2_database.tar.gz
-mv CheckM2_database/uniref100.KO.1.dmnd checkm2
+mv CheckM2_database/uniref100.KO.1.dmnd checkm2/
 rm -rf CheckM2_database
 checkm2/bin/checkm2 database --setdblocation checkm2/uniref100.KO.1.dmnd
 ```
@@ -151,7 +151,7 @@ deactivate
 wget https://data.gtdb.ecogenomic.org/releases/release232/232.0/auxillary_files/gtdbtk_package/full_package/gtdbtk_r232_data.tar.gz
 tar xvf gtdbtk_r232_data.tar.gz
 rm gtdbtk_r232_data.tar.gz
-mv release232 gtdbtk
+mv release232 gtdbtk/
 echo "export GTDBTK_DATA_PATH=\"$(pwd)/gtdbtk/release232\"" >> ~/.bashrc
 source ~/.bashrc
 ```
