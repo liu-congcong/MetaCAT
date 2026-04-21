@@ -51,8 +51,6 @@ and a set of fasta formatted cluster files `dataset.metacat.*.fasta`.
 
 - `checkm2` and its dataset are installed and available in the system PATH.
 
-- Activate the `checkm2` environment first if it is installed!
-
 #### Estimate the quality of clusters using CheckM2
 
 ```text
@@ -84,8 +82,6 @@ and a set of pdf formatted plot files `dataset.metacat.benchmarkRW.*.pdf`.
 - A set of fasta formatted cluster files `dataset.metacat.*.fasta`.
 
 - `gtdbtk` and its database are installed and available in the system PATH.
-
-- Activate the `gtdbtk` environment first if it is installed!
 
 #### Classify the clusters using GTDB-Tk
 
