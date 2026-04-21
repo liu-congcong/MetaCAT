@@ -73,7 +73,7 @@ You can specify its path using the `--fastani` or `--skani` option.
 
 ## Install MetaCAT and dependencies
 
-If you only require the core functionalities of MetaCAT (e.g., clustering), installing MetaCAT alone is sufficient.
+If only the core modules of MetaCAT (e.g., clustering) are required, installing MetaCAT alone is sufficient.
 
 `CheckM2`, `GTDB-Tk`, and their dependencies may require specific Python versions.
 
