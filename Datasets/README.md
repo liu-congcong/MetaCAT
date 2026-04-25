@@ -2,9 +2,10 @@
 
 Metagenome Clustering and Association Tool.
 
-All analyzed datasets are available at [Zenodo](https://doi.org/10.5281/zenodo.19653052).
+All analyzed datasets are available at Zenodo.
 
-https://doi.org/10.5281/zenodo.19653052
+- https://doi.org/10.5281/zenodo.19653052
+- https://doi.org/10.5281/zenodo.19653206
 
 ## CAMI Datasets
 
