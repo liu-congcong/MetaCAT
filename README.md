@@ -90,13 +90,16 @@ You may adjust the installation paths as needed.
 
 ```text
 python3 -m venv metacat
-# All dependencies will be installed or linked into "metacat/bin/". #
 source metacat/bin/activate
 pip3 install https://github.com/liu-congcong/MetaCAT/releases/download/v1.0.4/metacat-1.0.4-py3-none-any.whl
 deactivate
 ```
 
+**If CheckM2, GTDB-Tk, and their dependencies are already available in the system PATH, the following steps can be skipped.**
+
 ### Install dependencies used by CheckM2 and GTDB-Tk
+
+All dependencies will be installed or linked into "metacat/bin/".
 
 ```text
 for i in diamond FastTree FastTreeMP guppy hmmalign hmmsearch pplacer prodigal skani
@@ -170,7 +173,7 @@ ln -s $(pwd)/gtdbtk/bin/gtdbtk metacat/bin/gtdbtk
 
 ### GPU version for MetaCAT
 
-To enable the `GPU` for MetaCAT, you need to install [`CuPy`](https://cupy.dev).
+To enable the **GPU** for MetaCAT, you need to install [`CuPy`](https://cupy.dev).
 
 ```text
 pip3 install cupy-cudaXXX
