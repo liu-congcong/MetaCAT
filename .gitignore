@@ -1,0 +1,7 @@
+/.vscode
+/MetaCAT/__pycache__
+*.c
+*.toml
+*.whl
+/Data
+*.h
