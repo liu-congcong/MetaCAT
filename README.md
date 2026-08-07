@@ -97,7 +97,7 @@ You may adjust the installation paths as needed.
 ```text
 python3 -m venv metacat
 source metacat/bin/activate
-pip3 install https://github.com/liu-congcong/MetaCAT/releases/download/v1.0.5/metacat-1.0.5-py3-none-any.whl
+pip3 install https://github.com/liu-congcong/MetaCAT/releases/download/v1.0.6/metacat-1.0.6-py3-none-any.whl
 deactivate
 ```
 
@@ -260,3 +260,7 @@ Added the `--temp` option to the `checkm2` command.
 Added the `--temp` option to the `seed` command.
 
 Added the `--temp` option to the `gtdbtk` command.
+
+### v1.0.6
+
+Renamed the first column header in the `abundance` file from `Abundance` to `Classification`.

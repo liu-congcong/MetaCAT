@@ -26,7 +26,7 @@ def readGroupFile(file):
         openFile = gzip.open(file, mode = 'rt')
     else:
         openFile = open(file, 'r')
-    assert openFile.readline().rstrip('\n') == 'ID\tGroup', f'\"{file}\" must have a single header line: ID<tab>Group.'
+    assert openFile.readline().rstrip('\n') == 'ID\tGroup', f'\"{file}\" is not a valid group file.'
     for line in openFile:
         lines = line.rstrip('\n').split('\t')
         individual2group[lines[0]] = lines[1]
@@ -41,7 +41,7 @@ def readAbundanceFile(file, classifications):
     else:
         openFile = open(file, 'r')
     header = openFile.readline().rstrip('\n')
-    assert header.startswith('Abundance'), f'\"{file}\" must have a single header line: Abundance ... .'
+    assert header.startswith('Classification'), f'\"{file}\" is not a valid abundance file.'
     individuals = header.split('\t')[1 : ]
     abundance = list()
     for line in openFile:

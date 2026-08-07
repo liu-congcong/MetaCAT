@@ -44,7 +44,7 @@ def readAbundanceFile(file, classification2i, individuals):
     else:
         openFile = open(file, 'r')
     headers = openFile.readline().rstrip('\n').split('\t')
-    assert headers[0] == 'Abundance', f'\"{file}\" is not a valid abundance file.'
+    assert headers[0] == 'Classification', f'\"{file}\" is not a valid abundance file.'
     y = [individual2i[i] for i in headers[1 : ]]
     for line in openFile:
         lines = line.rstrip('\n').split('\t')

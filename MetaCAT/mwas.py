@@ -265,7 +265,7 @@ def readAbundanceFile(file, individuals):
         openFile = open(file, 'r')
     lines = openFile.readline().rstrip('\n').split('\t')
     individual2i = dict((j, i) for i, j in enumerate(lines[1 : ]))
-    assert lines[0] == 'Abundance', f'\"{file}\" is not a valid abundance file.'
+    assert lines[0] == 'Classification', f'\"{file}\" is not a valid abundance file.'
     y = [individual2i[i] for i in individuals]
     for i, line in enumerate(openFile):
         lines = line.rstrip('\n').split('\t')

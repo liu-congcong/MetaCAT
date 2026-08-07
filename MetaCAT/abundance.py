@@ -147,6 +147,6 @@ def main(parameters):
         queue.put((i, bamFile))
     freeProcesses(queue, processes)
     individuals = '\t'.join(os.path.splitext(os.path.basename(i))[0] for i in parameters.bam)
-    writeFile(parameters.output, x, tree, f'Abundance\t{individuals}')
+    writeFile(parameters.output, x, tree, f'Classification\t{individuals}')
     print(f'{datetime.now().strftime("%Y-%m-%d %H:%M:%S")} Finished.', flush = True)
     return None
