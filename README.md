@@ -6,7 +6,7 @@ Metagenome Clustering and Association Tool.
 
 If you use MetaCAT in your research, please cite:
 
-Liu CC, et al. MetaCAT enables reconstruction of high-quality microbial genomes and their association with host traits from metagenomic data. *Nature Microbiology*. 2026. Accepted for publication.
+Liu, CC., Dong, SS., Guo, J. et al. MetaCAT enables reconstruction of high-quality microbial genomes and their association with host traits from metagenomic data. *Nat Microbiol* (2026). https://doi.org/10.1038/s41564-026-02472-7
 
 ## Dependencies
 
