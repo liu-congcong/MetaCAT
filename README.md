@@ -77,7 +77,11 @@ MetaCAT uses `FastANI` or `Skani` from the environment by default.
 
 You can specify its path using the `--fastani` or `--skani` option.
 
-## Install MetaCAT and dependencies
+## Install with Conda
+
+MetaCAT is available on Conda. Many thanks to [@wwood](https://github.com/wwood) for his help with packaging MetaCAT for Conda!
+
+## Install MetaCAT and dependencies manually
 
 If only the core modules of MetaCAT (e.g., clustering) are required, installing MetaCAT alone is sufficient.
 
