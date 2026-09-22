@@ -5,17 +5,21 @@ from sys import exit, stderr
 
 libraryHash = {
     ('darwin', 'arm64'): 'darwin-arm64.dylib',
+    ('darwin', 'x86_64'): 'darwin-x86_64.dylib',
     ('linux', 'x86_64'): 'linux-x86_64.so',
+    ('linux', 'aarch64'): 'linux-aarch64.so',
     ('windows', 'amd64'): 'windows-amd64.dll',
-    ('windows', 'x86'): 'windows-x86.dll'
+    ('windows', 'x86'): 'windows-amd64.dll'
 }
 
 
 binaryHash = {
     ('darwin', 'arm64'): 'darwin-arm64',
+    ('darwin', 'x86_64'): 'darwin-x86_64',
     ('linux', 'x86_64'): 'linux-x86_64',
+    ('linux', 'aarch64'): 'linux-aarch64',
     ('windows', 'amd64'): 'windows-amd64',
-    ('windows', 'x86'): 'windows-x86'
+    ('windows', 'x86'): 'windows-amd64'
 }
 
 

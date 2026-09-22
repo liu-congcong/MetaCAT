@@ -180,15 +180,16 @@ def hmmsearchProcess(queue, hmmsearch, fastaFile, n, N):
         hmmFile, hitFile = queue.get()
         if hmmFile is None:
             break
+        flag = 1
         completedProcess = run(
             [hmmsearch, '--noali', '--notextw', '--cpu', '1', '--tblout', hitFile, hmmFile, fastaFile],
             stdout = DEVNULL, stderr = None
         )
         if completedProcess.returncode:
+            flag = 0
             print(f'{datetime.now().strftime("%Y-%m-%d %H:%M:%S")} Error: Failed to run hmmsearch.', file = stderr, flush = True)
-        exit(1)
         with n.get_lock():
-            n.value += 1
+            n.value += flag
             processBar.plot(n.value)
     return None
 
@@ -216,13 +217,15 @@ def freeProcesses(queue, processes):
 
 def runHmmsearch(hmmsearch, hmmFiles, fastaFile, threads, temp):
     path = Path(temp)
-    n = len(hmmFiles)
+    N = len(hmmFiles)
     hitFiles = list()
-    queue, processes, N = createProcesses(hmmsearch, fastaFile, n, threads)
+    queue, processes, n = createProcesses(hmmsearch, fastaFile, N, threads)
     for hmmFile in hmmFiles:
         hitFiles.append(str(path.joinpath(uuid4().hex)))
         queue.put((hmmFile, hitFiles[-1]))
     freeProcesses(queue, processes)
+    if n.value != N:
+        exit(1)
     outputFile = path.joinpath(uuid4().hex)
     open4w = outputFile.open('wb', buffering = 10485760)
     for hitFile in hitFiles:

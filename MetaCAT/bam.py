@@ -28,12 +28,12 @@ class BamIndex(ctypes.Structure):
     ]
 
 bam = ctypes.cdll.LoadLibrary(findLibrary('bam'))
-bam.indexBam.argtypes = [ctypes.c_char_p, ctypes.c_char_p]
-bam.indexBam.restype = ctypes.c_int
-bam.readIndex.argtypes = [ctypes.c_char_p]
-bam.readIndex.restype = ctypes.POINTER(BamIndex)
-bam.freeIndex.argtypes = [ctypes.POINTER(BamIndex)]
-bam.freeIndex.restype = ctypes.c_int
+bam.bamIndexCreate.argtypes = [ctypes.c_char_p, ctypes.c_char_p]
+bam.bamIndexCreate.restype = ctypes.c_int
+bam.bamIndexRead.argtypes = [ctypes.c_char_p]
+bam.bamIndexRead.restype = ctypes.POINTER(BamIndex)
+bam.bamIndexFree.argtypes = [ctypes.POINTER(BamIndex)]
+bam.bamIndexFree.restype = ctypes.c_int
 
 invalidFlag = 0x4 + 0x100 + 0x200 + 0x400
 mapping = numpy.array([4, 0, 1, 4, 2, 4, 4, 4, 3, 4, 4, 4, 4, 4, 4, 4], dtype = numpy.uint8)
@@ -96,12 +96,13 @@ def indexProcess(queue, n, N):
         file = queue.get()
         if file is None:
             break
+        flag = 1
         if not os.access(f'{file}.index', os.R_OK):
-            if bam.indexBam(file.encode(), f'{file}.index'.encode()):
+            if bam.bamIndexCreate(file.encode(), f'{file}.index'.encode()):
+                flag = 0
                 print(f'{datetime.now().strftime("%Y-%m-%d %H:%M:%S")} Error: Failed to index "{file}".', file = stderr, flush = True)
-                exit(1)
         with n.get_lock():
-            n.value += 1
+            n.value += flag
             processBar.plot(n.value)
     return None
 
@@ -127,6 +128,8 @@ def indexBam(files, threads):
     for process in processes:
         process.join()
         process.close()
+    if n.value != N:
+        exit(1)
     return None
 
 
@@ -137,7 +140,7 @@ def readIndex(file):
     dataOffsets = list()
     dataSizes = list()
     marker = md5()
-    pointer = bam.readIndex(file.encode())
+    pointer = bam.bamIndexRead(file.encode())
     index = pointer.contents
     headerFileOffset = index.headerFileOffset
     headerDataOffset = index.headerDataOffset
@@ -149,7 +152,7 @@ def readIndex(file):
         dataSizes.append(index.dataSizes[i])
         marker.update(index.sequences[i])
         marker.update(index.lengths[i].to_bytes(length = 4, byteorder = 'little'))
-    bam.freeIndex(pointer)
+    bam.bamIndexFree(pointer)
     return (marker.digest(), headerFileOffset, headerDataOffset, sequences, lengths, fileOffsets, dataOffsets, dataSizes)
 
 
@@ -166,7 +169,6 @@ def readIndexProcess(queue, x, n, m, marker):
         markerI, headerFileOffset, headerDataOffset, sequences, lengths, fileOffsets, dataOffsets, dataSizes = readIndex(file)
         if markerI != marker:
             print(f'{datetime.now().strftime("%Y-%m-%d %H:%M:%S")} Error: All bam files should have the same header.', file = stderr, flush = True)
-            exit(1)
         x[0, : , i] = fileOffsets[ : -1]
         x[1, : , i] = dataOffsets[ : -1]
         x[2, : , i] = dataSizes[ : -1]

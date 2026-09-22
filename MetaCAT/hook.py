@@ -12,7 +12,7 @@ class PermissionHook(build_py):
         path = os.path.join(self.build_lib, 'MetaCAT')
         dirEntry = os.scandir(path)
         for i in dirEntry:
-            if i.is_file() and i.name.endswith(('darwin-arm64', 'linux-x86_64', 'windows-amd64', 'windows-x86_64')):
+            if i.is_file() and i.name.endswith(('darwin-arm64', 'darwin-x86_64', 'linux-x86_64', 'linux-aarch64', 'windows-amd64')):
                 os.chmod(i.path, flag)
         dirEntry.close()
         return None

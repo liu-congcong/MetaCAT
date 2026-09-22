@@ -24,13 +24,14 @@ class Fraggenescan:
             file = queue.get()
             if file is None:
                 break
+            flag = 1
             completedProcess = run(
                 [self.fraggenescan, '-w', '0', '-t', 'complete', '-s', file, '-o', file],
                 stdout = DEVNULL, stderr = None
             )
             if completedProcess.returncode:
+                flag = 0
                 print(f'{datetime.now().strftime("%Y-%m-%d %H:%M:%S")} Error: Failed to run FragGeneScan.', file = stderr, flush = True)
-                exit(1)
             path = Path(file)
             path.unlink(missing_ok = True)
             path.with_suffix('.gff').unlink(missing_ok = True)
@@ -42,7 +43,7 @@ class Fraggenescan:
                 path.with_suffix('.ffn').rename(file)
                 path.with_suffix('.faa').unlink(missing_ok = True)
             with n.get_lock():
-                n.value += 1
+                n.value += flag
                 processBar.plot(n.value)
         return None
 

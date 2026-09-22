@@ -1,7 +1,7 @@
 import os
-import sys
 from argparse import ArgumentParser, RawTextHelpFormatter
 from pathlib import Path
+from sys import exit
 from uuid import uuid4
 
 from . import (abundance, abundance_test, benchmark_gt, benchmark_rw, c,
@@ -14,7 +14,7 @@ class MetaCATParser(ArgumentParser):
     def error(self, message):
         self.print_help()
         print(f'\nError: {message}\n', flush = True)
-        sys.exit()
+        exit(1)
         return None
 
 
@@ -25,7 +25,7 @@ def __init__():
         epilog = 'congcong_liu@icloud.com.'
     )
     parser.add_argument(
-        '-v', '--version', action = 'version', version = '%(prog)s 1.0.6'
+        '-v', '--version', action = 'version', version = '%(prog)s 1.0.7'
     )
 
     subparsers = parser.add_subparsers(

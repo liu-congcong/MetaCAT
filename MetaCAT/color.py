@@ -22,14 +22,14 @@ def parseRGBA(color: str, n: int, minColor: float, maxColor: float) -> Sequence[
 
 def generateColors(n):
     library = ctypes.cdll.LoadLibrary(findLibrary('color'))
-    library.generateColors.argtypes = [ctypes.c_int]
-    library.generateColors.restype = ctypes.POINTER(ctypes.c_double * 3)
-    library.freeColors.argtypes = [ctypes.POINTER(ctypes.c_double * 3)]
-    library.freeColors.restype = ctypes.c_int
-    pointer = library.generateColors(n)
+    library.colorGenerate.argtypes = [ctypes.c_int]
+    library.colorGenerate.restype = ctypes.POINTER(ctypes.c_double * 3)
+    library.colorFree.argtypes = [ctypes.POINTER(ctypes.c_double * 3)]
+    library.colorFree.restype = ctypes.c_int
+    pointer = library.colorGenerate(n)
     if pointer is None:
         print(f'{datetime.now().strftime("%Y-%m-%d %H:%M:%S")} Error: Failed to generate colors.', file = stderr, flush = True)
         exit(1)
     colors = [(pointer[i][0], pointer[i][1], pointer[i][2]) for i in range(n)]
-    library.freeColors(pointer)
+    library.colorFree(pointer)
     return colors

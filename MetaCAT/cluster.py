@@ -1,11 +1,11 @@
 import gzip
 import os
-import sys
 from ctypes import c_float
 from datetime import datetime
 from math import ceil, log, log10
 from multiprocessing.sharedctypes import RawArray
 from operator import itemgetter
+from sys import exit
 
 import numpy
 from sklearn.decomposition import PCA
@@ -162,7 +162,7 @@ def main(parameters):
     nSeeds = len(sequenceID2markers)
     if nSeeds == 0:
         print(f'{datetime.now().strftime("%Y-%m-%d %H:%M:%S")} Empty seeds file.', flush = True)
-        sys.exit()
+        exit(1)
 
     # read fasta file #
     print(f'{datetime.now().strftime("%Y-%m-%d %H:%M:%S")} Loading fasta file.', flush = True)
