@@ -6,7 +6,7 @@ Metagenome Clustering and Association Tool.
 
 If you use MetaCAT in your research, please cite:
 
-Liu CC, et al. MetaCAT enables reconstruction of high-quality microbial genomes and their association with host traits from metagenomic data. *Nature Microbiology*. 2026. Accepted for publication.
+Liu, CC., Dong, SS., Guo, J. et al. MetaCAT enables reconstruction of high-quality microbial genomes and their association with host traits from metagenomic data. *Nat Microbiol* (2026). https://doi.org/10.1038/s41564-026-02472-7
 
 ## Dependencies
 
@@ -77,7 +77,11 @@ MetaCAT uses `FastANI` or `Skani` from the environment by default.
 
 You can specify its path using the `--fastani` or `--skani` option.
 
-## Install MetaCAT and dependencies
+## Install with Conda
+
+MetaCAT is available on Conda. Many thanks to [@wwood](https://github.com/wwood) for his help with packaging MetaCAT for Conda!
+
+## Install MetaCAT and dependencies manually
 
 If only the core modules of MetaCAT (e.g., clustering) are required, installing MetaCAT alone is sufficient.
 
