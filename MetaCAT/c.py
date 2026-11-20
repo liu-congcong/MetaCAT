@@ -4,8 +4,8 @@ from platform import machine, system
 from sys import exit, stderr
 
 libraryHash = {
-    ('darwin', 'arm64'): 'darwin-arm64.dylib',
-    ('darwin', 'x86_64'): 'darwin-x86_64.dylib',
+    # ('darwin', 'arm64'): 'darwin-arm64.dylib',
+    # ('darwin', 'x86_64'): 'darwin-x86_64.dylib',
     ('linux', 'x86_64'): 'linux-x86_64.so',
     ('linux', 'aarch64'): 'linux-aarch64.so',
     ('windows', 'amd64'): 'windows-amd64.dll',
@@ -14,8 +14,8 @@ libraryHash = {
 
 
 binaryHash = {
-    ('darwin', 'arm64'): 'darwin-arm64',
-    ('darwin', 'x86_64'): 'darwin-x86_64',
+    # ('darwin', 'arm64'): 'darwin-arm64',
+    # ('darwin', 'x86_64'): 'darwin-x86_64',
     ('linux', 'x86_64'): 'linux-x86_64',
     ('linux', 'aarch64'): 'linux-aarch64',
     ('windows', 'amd64'): 'windows-amd64',

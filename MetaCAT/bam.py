@@ -28,7 +28,7 @@ class BamIndex(ctypes.Structure):
     ]
 
 bam = ctypes.cdll.LoadLibrary(findLibrary('bam'))
-bam.bamIndexCreate.argtypes = [ctypes.c_char_p, ctypes.c_char_p]
+bam.bamIndexCreate.argtypes = [ctypes.POINTER(ctypes.c_char_p), ctypes.c_size_t, ctypes.c_size_t]
 bam.bamIndexCreate.restype = ctypes.c_int
 bam.bamIndexRead.argtypes = [ctypes.c_char_p]
 bam.bamIndexRead.restype = ctypes.POINTER(BamIndex)
@@ -90,46 +90,13 @@ def readAlignment(file, fileOffset, dataOffset, dataSize):
     return None
 
 
-def indexProcess(queue, n, N):
-    processBar = ProcessBar(N)
-    while True:
-        file = queue.get()
-        if file is None:
-            break
-        flag = 1
-        if not os.access(f'{file}.index', os.R_OK):
-            if bam.bamIndexCreate(file.encode(), f'{file}.index'.encode()):
-                flag = 0
-                print(f'{datetime.now().strftime("%Y-%m-%d %H:%M:%S")} Error: Failed to index "{file}".', file = stderr, flush = True)
-        with n.get_lock():
-            n.value += flag
-            processBar.plot(n.value)
-    return None
-
-
 def indexBam(files, threads):
     '''
     files: sorted bam files.
     threads: int
     '''
-    n = Value(ctypes.c_int64, 0)
-    queue = Queue(threads)
-    processes = list()
-    N = len(files)
-    for i in range(threads):
-        processes.append(Process(target = indexProcess, args = (queue, n, N)))
-        processes[-1].start()
-    for i in files:
-        queue.put(i)
-    for process in processes:
-        queue.put(None)
-    queue.close()
-    queue.join_thread()
-    for process in processes:
-        process.join()
-        process.close()
-    if n.value != N:
-        exit(1)
+    files = [i.encode() for i in files if not os.access(f'{i}.index', os.R_OK)]
+    bam.bamIndexCreate((ctypes.c_char_p * len(files))(*files), len(files), threads)
     return None
 
 
