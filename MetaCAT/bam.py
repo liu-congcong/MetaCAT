@@ -28,7 +28,7 @@ class BamIndex(ctypes.Structure):
     ]
 
 bam = ctypes.cdll.LoadLibrary(findLibrary('bam'))
-bam.bamIndexCreate.argtypes = [ctypes.POINTER(ctypes.c_char_p), ctypes.c_size_t, ctypes.c_size_t]
+bam.bamIndexCreate.argtypes = [ctypes.POINTER(ctypes.c_char_p), ctypes.POINTER(ctypes.c_char_p), ctypes.c_size_t, ctypes.c_size_t]
 bam.bamIndexCreate.restype = ctypes.c_int
 bam.bamIndexRead.argtypes = [ctypes.c_char_p]
 bam.bamIndexRead.restype = ctypes.POINTER(BamIndex)
@@ -95,8 +95,13 @@ def indexBam(files, threads):
     files: sorted bam files.
     threads: int
     '''
-    files = [i.encode() for i in files if not os.access(f'{i}.index', os.R_OK)]
-    bam.bamIndexCreate((ctypes.c_char_p * len(files))(*files), len(files), threads)
+    bamFiles = list()
+    indexFiles = list()
+    for i in files:
+        bamFiles.append(i.encode())
+        indexFiles.append(f'{i}.index'.encode())
+    n = len(files)
+    bam.bamIndexCreate((ctypes.c_char_p * n)(*bamFiles), (ctypes.c_char_p * n)(*indexFiles), n, threads)
     return None
 
 
